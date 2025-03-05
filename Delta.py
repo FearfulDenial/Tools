@@ -2,11 +2,14 @@ import logging
 import numpy as np
 
 HumanReadable = False
-logging.basicConfig(
-    filename="UpsilonRho.log",
-    level=logging.INFO,
-    format="%(message)s",
-)
+LogToFile = False
+
+if LogToFile:
+    logging.basicConfig(
+        filename="UpsilonRho.log",
+        level=logging.INFO,
+        format="%(message)s",
+    )
 
 def Round(Zeta, Delta=3):
     Rho = complex(round(Zeta.real, Delta), round(Zeta.imag, Delta))
@@ -44,7 +47,7 @@ if __name__ == "__main__":
 
             for Nu, Upsilon in [("Μ9", UpsilonMu), ("Θ9", UpsilonTheta), ("Ι9", IotaChar)]:
                 Omega = f"\nUnitary {Nu}"
-                logging.info(Omega)
+                if LogToFile: logging.info(Omega)
                 print(Omega)
 
                 for Rho in Upsilon:
@@ -53,8 +56,8 @@ if __name__ == "__main__":
                         Epsilon = " | ".join(Describe(Zeta) for Zeta in Alpha)
                     else:
                         Epsilon = " ".join(f"({Zeta.real}{'+' if Zeta.imag >= 0 else ''}{Zeta.imag}j)" for Zeta in Alpha)
-                    logging.info(Epsilon)
+                    if LogToFile: logging.info(Epsilon)
                     print(Epsilon)
     except KeyboardInterrupt:
-        logging.info("Interrupted by user.")
+        if LogToFile: logging.info("Interrupted by user.")
         pass
